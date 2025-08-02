@@ -1,9 +1,10 @@
+import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import kociemba
 
 app = Flask(__name__)
-CORS(app)  # Allow requests from frontend
+CORS(app)
 
 @app.route('/solve', methods=['POST'])
 def solve_cube():
@@ -25,5 +26,7 @@ def solve_cube():
         return jsonify({'error': str(e), 'solved': False}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))  # Default to 5000 if $PORT not found
+    app.run(debug=True, host='0.0.0.0', port=port)
+
 
